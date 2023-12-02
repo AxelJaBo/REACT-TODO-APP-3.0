@@ -14,22 +14,27 @@ import { TodoForm } from '../TodoForm';
 import { ChangeAlert } from '../ChangeAlert';
 
 function App() {
+  const { states, stateUpdaters } = useTodos();
+  
   const {
-    error,
     loading,
-    searchedTodos,
-    completeTodo,
-    deleteTodo,
-    openModal,
-    setOpenModal,
+    error,
     totalTodos,
     completedTodos,
     searchValue,
+    searchedTodos,
+    openModal,
+  } = states;
+
+  const {
     setSearchValue,
     addTodo,
+    completeTodo,
+    deleteTodo,
+    setOpenModal,
     sincronizeTodos
-  } = useTodos();
-  
+  } = stateUpdaters;
+
   return (
     <>
       <TodoHeader loading={loading}>
@@ -55,15 +60,6 @@ function App() {
         onEmptySearchResults={
           (searchText) => <p>No hay resultados para {searchText}</p>
         }
-        // render={todo => (
-        //   <TodoItem
-        //     key={todo.text}
-        //     text={todo.text}
-        //     completed={todo.completed}
-        //     onComplete={() => completeTodo(todo.text)}
-        //     onDelete={() => deleteTodo(todo.text)}
-        //   />
-        // )}
       >
         {todo => (
           <TodoItem

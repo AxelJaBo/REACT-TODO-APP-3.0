@@ -1,10 +1,10 @@
-import React from "react";
+import { useState } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
 function useTodos() {
     const { item: todos, saveItem: saveTodos, sincronizeItem: sincronizeTodos, loading, error } = useLocalStorage('TODOS_V1', []);
-    const [searchValue, setSearchValue] = React.useState('');
-    const [openModal, setOpenModal] = React.useState(false);
+    const [searchValue, setSearchValue] = useState('');
+    const [openModal, setOpenModal] = useState(false);
 
     const completedTodos = todos.filter(
         todo => !!todo.completed
@@ -46,23 +46,25 @@ function useTodos() {
         saveTodos(newTodos);
     };
 
-    return (
-        {
-            loading,
-            error,
-            completedTodos,
-            totalTodos,
-            searchValue,
-            setSearchValue,
-            searchedTodos,
-            addTodo,
-            completeTodo,
-            deleteTodo,
-            openModal,
-            setOpenModal,
-            sincronizeTodos
-        }
-    );
+    const states = {
+        loading,
+        error,
+        totalTodos,
+        completedTodos,
+        searchValue,
+        searchedTodos,
+        openModal,
+    };
+    const stateUpdaters = {
+        setSearchValue,
+        addTodo,
+        completeTodo,
+        deleteTodo,
+        setOpenModal,
+        sincronizeTodos
+    };
+
+    return { states, stateUpdaters };
 };
 
 export { useTodos };
